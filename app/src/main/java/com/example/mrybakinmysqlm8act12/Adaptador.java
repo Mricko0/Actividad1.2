@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-
+//El adaptador proporciona acceso a los elementos de datos. El adaptador también es responsable de crear una vista para cada elemento del conjunto de datos.
 public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>{
 
     private Context context;
     private Activity activity;
     private ArrayList IncidenciasID, IncidenciasTitulo, IncidenciasUsuario, IncidenciasElemento, IncidenciasTipo, IncidenciasUbicacion, IncidenciasDesc, IncidenciasFecha;
-
+    //Declaramos el constructor del adaptador
     Adaptador(Activity activity, Context context, ArrayList IncidenciasID, ArrayList IncidenciasTitulo, ArrayList IncidenciasUsuario,
                   ArrayList IncidenciasElemento, ArrayList IncidenciasTipo, ArrayList IncidenciasUbicacion, ArrayList IncidenciasDesc, ArrayList IncidenciasFecha){
         this.activity = activity;
@@ -40,7 +40,7 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>{
         this.IncidenciasFecha = IncidenciasFecha;
     }
 
-
+    //Crea el viewholder en el layout columna donde ahi estara la estructura de cada incidencia.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,10 +48,11 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>{
         View view = inflater.inflate(R.layout.columna, parent, false);
         return new ViewHolder(view);
     }
-
+    //En resumen une el texto que escribimos en añadir incidencia y crea la lista para que la podamos ver dentro de la aplicacion
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        //Aqui recoje el texto que hemos puesto en añadir una actividad y su posicion o la ID.
         holder.incidencia_id_txt.setText(String.valueOf(IncidenciasID.get(position)));
         holder.incidencias_titulo_txt.setText(String.valueOf(IncidenciasTitulo.get(position)));
         holder.incidencias_usuario_txt.setText(String.valueOf(IncidenciasUsuario.get(position)));
@@ -62,6 +63,7 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>{
         holder.incidencias_fecha_txt.setText(String.valueOf(IncidenciasFecha.get(position)));
         //Recyclerview onClickListener
         holder.LayoutMain.setOnClickListener(new View.OnClickListener() {
+            //Aqui lo crea en su respectiva posicion.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ActualizarActividad.class);
@@ -77,17 +79,17 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder>{
             }
         });
     }
-
+    //Cuentas todas las ID restantes.
     @Override
     public int getItemCount() {
         return IncidenciasID.size();
     }
-
+    //Aqui se hace cargo que se muestre el viewholder, la lista de las incidencias.
     class ViewHolder extends RecyclerView.ViewHolder {
-
+    
         TextView incidencia_id_txt, incidencias_titulo_txt, incidencias_usuario_txt, incidencias_elemento_txt, incidencias_tipo_txt, incidencias_ubicacion_txt, incidencias_desc_txt, incidencias_fecha_txt;
         LinearLayout LayoutMain;
-
+        //Crea la visualizacion de las listas con los correspondientes datos y tambien crea una animacion simple.
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             incidencia_id_txt = itemView.findViewById(R.id.incidencia_id_txt);
