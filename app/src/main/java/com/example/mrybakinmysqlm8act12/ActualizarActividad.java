@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+//Esta clase nos sirve para actualizar las actividades. Gracias a que cada incidencia tiene su propia ID podemos editar cualquier incidencia.
 public class ActualizarActividad extends AppCompatActivity {
-
+    //variables
     EditText Titulo_Input, Usuario_Input, Elemento_Input, Tipo_Input, Ubicacion_Input, Desc_Input, Fecha_Input;
     Button ActualizarBOTON, EliminarBOTON;
     String id, Titulo, Usuario, Elemento, Tipo, Ubicacion, Desc, Fecha;
-
+    //Busca la incidencia y sus View por ID designados en la incidencia.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ public class ActualizarActividad extends AppCompatActivity {
         if (ab != null) {
             ab.setTitle(Titulo);
         }
-
+        //Aqui se actualizan los datos de la incidencia.
         ActualizarBOTON.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +54,7 @@ public class ActualizarActividad extends AppCompatActivity {
                 myDB.ActualizarIncidencia(id, Titulo, Usuario, Elemento,Tipo,Ubicacion,Desc,Fecha);
             }
         });
+        //Para eliminar la incidencia en especifico
         EliminarBOTON.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +63,7 @@ public class ActualizarActividad extends AppCompatActivity {
         });
 
     }
-
+    //Obtiene los datos de la incidencia y los actualiza con los nuevos datos puestos.
     void getAndSetIntentData(){
         if(getIntent().hasExtra("id") && getIntent().hasExtra("Titulo") &&
                 getIntent().hasExtra("Autor") && getIntent().hasExtra("pages")){
@@ -88,7 +89,7 @@ public class ActualizarActividad extends AppCompatActivity {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }
     }
-
+    //Un dialogo que aparece para confirmar cualqueira accion ya sea actualizar o eliminarlo.
     void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar " + Titulo + " ?");
