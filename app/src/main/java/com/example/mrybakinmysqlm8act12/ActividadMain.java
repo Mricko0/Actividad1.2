@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 
 public class ActividadMain extends AppCompatActivity {
+    
     RecyclerView recyclerView;
     FloatingActionButton add_button;
     ImageView empty_imageview;
@@ -30,7 +31,7 @@ public class ActividadMain extends AppCompatActivity {
     BaseDeDatos BaseDeDatos;
     ArrayList<String> Incidencias_id, Incidencias_Titulo, Incidencias_Usuario, Incidencias_Elemento, Incidencias_Tipo, Incidencias_Ubicacion, Incidencias_Desc,Incidencias_Fecha;
     Adaptador Adaptador2;
-
+    //Crea layouts y empieza la aplicacion designado con que layout empieza.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,7 @@ public class ActividadMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //Crea las arrays list para la base de datos.
         BaseDeDatos = new BaseDeDatos(ActividadMain.this);
         Incidencias_id = new ArrayList<>();
         Incidencias_Titulo = new ArrayList<>();
@@ -58,13 +59,13 @@ public class ActividadMain extends AppCompatActivity {
         Incidencias_Desc = new ArrayList<>();
         Incidencias_Fecha = new ArrayList<>();
         GuardarListas();
-
+        //Crea los adaptadores para crear una lista.
         Adaptador2 = new Adaptador(ActividadMain.this,this, Incidencias_id, Incidencias_Titulo, Incidencias_Usuario,
                 Incidencias_Elemento,Incidencias_Tipo,Incidencias_Ubicacion,Incidencias_Desc,Incidencias_Fecha);
         recyclerView.setAdapter(Adaptador2);
         recyclerView.setLayoutManager(new LinearLayoutManager(ActividadMain.this));
     }
-
+    //Hace que esta actividad se vuelva a crear con una nueva instancia. Esto da como resultado esencialmente el mismo flujo que cuando se crea la actividad debido a un cambio de configuración.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -72,7 +73,7 @@ public class ActividadMain extends AppCompatActivity {
             recreate();
         }
     }
-
+    //Guarda las listas en la base de datos.
     void GuardarListas(){
         Cursor cursor = BaseDeDatos.LeerTodo();
         if(cursor.getCount() == 0){
@@ -93,14 +94,14 @@ public class ActividadMain extends AppCompatActivity {
             no_data.setVisibility(View.GONE);
         }
     }
-
+    //Un menu de opciones
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
+    //Un boton en el menu de opciones en la cual nos deja borrar todas las incidencias
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.borrar_todo){
@@ -108,7 +109,7 @@ public class ActividadMain extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    //Una confirmacion que queremos borrar todas las incidencias.
     void confirmar(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Borrar todo?");
