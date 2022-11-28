@@ -9,9 +9,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
+//Clase de Base de datos para la aplicacion donde se crea un SQLite.
 public class BaseDeDatos extends SQLiteOpenHelper {
 
+    //Strings y variables para la base de datos
     private Context context;
     private static final String NOMBRE_BD = "SQLMrybakin.db";
     private static final int DB_VERSION = 1;
@@ -25,16 +26,19 @@ public class BaseDeDatos extends SQLiteOpenHelper {
     private static final String COLUMNA_UBICACION = "UbicacionIncidencia";
     private static final String COLUMNA_FECHA = "FechaIncidencia";
 
+    
+    //Crea el context
     BaseDeDatos(@Nullable Context context) {
         super(context, NOMBRE_BD, null, DB_VERSION);
         this.context = context;
     }
 
+    //Constructor de base de datos
     public BaseDeDatos(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-
+    //Crea la base de datos localmente y la tabla.
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String query = "CREATE TABLE " + NOMBRE_TABLA +
@@ -48,13 +52,15 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 COLUMNA_FECHA + " TEXT);";
         sqLiteDatabase.execSQL(query);
     }
-
+    
+    //Se llama cuando la versión de su base de datos cambió, lo que significa que la estructura de la tabla subyacente cambió, etc.
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + NOMBRE_TABLA);
         onCreate(sqLiteDatabase);
     }
-
+    
+    //Metodo para añadir incidencias a la base de datos. Si ahi un error lo comenta con un toast.
     void AñadirIncidencia(String titulo, String usuario, String elemento, String Tipo, String Ubicacion, String Desc, String Fecha){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues ContentValues = new ContentValues();
@@ -75,7 +81,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         }
 
     }
-
+    //Metodo para actualizar una incidencia, gracias a la ID de la columna edita la incidencia necesaria.
     void ActualizarIncidencia(String row_id, String titulo, String usuario, String elemento, String Tipo, String Ubicacion, String Desc, String Fecha){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues ContentValues = new ContentValues();
@@ -95,7 +101,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         }
 
     }
-
+    //Eliminar incidendias en especifico con una ID
     void EliminarIncidencia(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(NOMBRE_TABLA, "_ID=?", new String[]{row_id});
@@ -105,7 +111,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
             Toast.makeText(context, "Eliminado correctamente.", Toast.LENGTH_SHORT).show();
         }
     }
-
+    //Lee todas las incidencias
     Cursor LeerTodo(){
         String query = "SELECT * FROM " + NOMBRE_TABLA;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -116,7 +122,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         }
         return cursor;
     }
-
+    //Borra todas las incidencias
     void BorrarTodo(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + NOMBRE_TABLA);
